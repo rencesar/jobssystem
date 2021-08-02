@@ -90,7 +90,9 @@ def annual_report_uploaded(item : StatusEngine):
     if reportstate:
         data_filter |= Q(data=f"{reportyear} --- {reportname} --- {reportstate}")
 
-    SEs = StatusEngine.objects.filter(email=item.email, process="Annual Report Reminder", outcome=-1).filter(
+    SEs = StatusEngine.objects.filter(
+        email=item.email, process="Annual Report Reminder",
+        outcome=StatusEngine.SCHEDULED,
         data_filter
     )
     for se in SEs:
@@ -116,7 +118,7 @@ def kickoff_questionnaire_completed(item : StatusEngine):
             email=item.email,
             processstate=1,
             formationtype="Hyke Salesforce",
-            outcome=-1,
+            outcome=StatusEngine.SCHEDULED,
             process="Kickoff Questionnaire Completed",
             data=item.data,
         )
@@ -131,7 +133,7 @@ def kickoff_call_scheduled(item : StatusEngine):
         email=item.email,
         processstate=1,
         formationtype="Hyke Salesforce",
-        outcome=-1,
+        outcome=StatusEngine.SCHEDULED,
         process="Kickoff Call Scheduled",
         data=item.data,
     )
@@ -146,7 +148,7 @@ def kickoff_call_cancelled(item : StatusEngine):
         email=item.email,
         processstate=1,
         formationtype="Hyke Salesforce",
-        outcome=-1,
+        outcome=StatusEngine.SCHEDULED,
         process="Kickoff Call Cancelled",
     )
 
@@ -181,7 +183,7 @@ def bk_training_call_scheduled(item : StatusEngine):
         email=item.email,
         processstate=1,
         formationtype="Hyke Salesforce",
-        outcome=-1,
+        outcome=StatusEngine.SCHEDULED,
         process="BK Training Call Scheduled",
         data=item.data,
     )
@@ -197,7 +199,7 @@ def bk_training_call_cancelled(item : StatusEngine):
         process="Followup - BK Training",
         formationtype="Hyke Daily",
         processstate=1,
-        outcome=-1,
+        outcome=StatusEngine.SCHEDULED,
         data="---",
         executed=timezone.now() + relativedelta(days=2),
     )
@@ -207,7 +209,7 @@ def bk_training_call_cancelled(item : StatusEngine):
         email=item.email,
         processstate=1,
         formationtype="Hyke Salesforce",
-        outcome=-1,
+        outcome=StatusEngine.SCHEDULED,
         process="BK Training Call Cancelled",
     )
 
